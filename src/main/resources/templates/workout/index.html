@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<p th:unless="${workouts} and ${workouts.size()}">Get ripped add some workouts!!!</p>
+
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Notes</th>
+        <th>Duration/Set</th>
+    </tr>
+
+    <tr th:each="workout : ${workouts}">
+        <td th:text="${workout.name}"></td>
+        <td th:text="${workout.notes}"></td>
+        <td th:text="${workout.DurationSet.name}"></td>
+    </tr>
+
+</table>
+<a href="/workout/add" class="btn btn-info" role="button">Add Workout</a>
+<a href="/workout/remove" class="btn btn-info" role="button">Remove Workout</a>
+<a href="/durationset/add" class="btn btn-info" role="button">Add Duration/Set</a>
+
+
+</body>
+</html>

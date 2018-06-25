@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post"  th:object="${form}" action="/schedule/add-item">
+    <div class="form-group">
+        <label th:for="workoutId">Workout</label>
+        <select name="workoutId">
+            <option th:each="workout : *{workouts}"
+                    th:text="${workout.name} + ' ' + ${workout.DurationSet.name}"
+                    th:value="${workout.id}">
+            </option>
+
+        </select>
+
+    </div>
+
+    <input type="hidden" name="scheduleId" th:value="*{schedule.id}" />
+
+    <input type="submit" value="Add Workout" />
+
+</form>
+
+</body>
+</html>

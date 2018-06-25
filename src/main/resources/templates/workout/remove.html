@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post">
+
+    <div th:each="workout : ${workouts}" class="checkbox">
+        <input type="checkbox" name="workoutIds" th:value="${workout.id}" th:id="${workout.id}"/>
+        <label th:for="${workout.id}" th:text="${workout.name}"></label>
+        <br />
+    </div>
+    <h4>Make Sure the workout is not in any schedules before removing!!!</h4>
+
+    <input type="submit" value="Remove Workout" />
+</form>
+
+</body>
+</html>
