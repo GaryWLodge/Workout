@@ -49,4 +49,6 @@ public class Schedule {
     }
 
     public void setUser(User u) {this.user = u;}
+
+    public User getUser(User u) {return user;}
 }

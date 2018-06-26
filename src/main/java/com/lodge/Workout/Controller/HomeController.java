@@ -2,6 +2,7 @@ package com.lodge.Workout.Controller;
 
 
 import com.lodge.Workout.Model.Schedule;
+import com.lodge.Workout.Model.User;
 import com.lodge.Workout.Model.data.ScheduleDao;
 import com.lodge.Workout.Model.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class HomeController {
     private UserDao userdao;
 
     @RequestMapping(value = "")
-    public String index(Model model) {
+    public String index(Model model,String username) {
 
         model.addAttribute("schedules", scheduleDao.findAll());
         model.addAttribute("title", "All Workout Plans");
+        model.addAttribute("users", userdao.findAll());
+
+
 
         return "home/index";
     }
@@ -36,9 +40,24 @@ public class HomeController {
 
 
         Schedule schedule = scheduleDao.findOne(scheduleId);
+        User user = userdao.findOne(scheduleId);
         model.addAttribute("title", schedule.getName());
         model.addAttribute("workouts", schedule.getWorkouts());
         model.addAttribute("scheduleId", schedule.getId());
+        model.addAttribute("users", user);
+
         return "home/view";
     }
+
+    @RequestMapping(value = "viewuser/{homeId}", method = RequestMethod.GET)
+    public String userItem(Model model , @PathVariable int homeId, String username) {
+
+        User user = userdao.findOne(homeId);
+        model.addAttribute("title", user.getUsername() +" "+ "Workout Plans");
+        model.addAttribute("schedules", user.getSchedules());
+
+
+        return "home/viewuser";
+    }
+
 }

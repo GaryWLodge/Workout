@@ -8,16 +8,33 @@
 <nav th:replace="fragments :: navigation"></nav>
 
 
+<table class="table">
+
+    <tr>
+        <th>Workout Plans</th>
+    </tr>
 
 
-<ul>
-    <li  th:each="schedule : ${schedules}">
+    <tr  th:each="schedule : ${schedules}">
 
-        <h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
-    </li>
+        <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2></td>
 
-</ul>
+    </tr>
 
+    <tr>
+        <th>Users</th>
+    </tr>
+
+
+<th>
+    <tr  th:each="user : ${users}">
+
+        <td><h2><a th:href="'/home/viewuser/' + ${user.id}" th:text="${user.username}"></a></h2></td>
+
+    </tr>
+</th>
+
+</table>
 
 </body>
 </html>
