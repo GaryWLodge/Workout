@@ -10,17 +10,15 @@
     <div class="form-group">
         <label for="username-field">Username</label>
         <input class="form-control" id="username-field" type="text" name="username" th:value="${username}"/>
-        <span class="error" th:text="${username}"></span>
+        <span class="error" th:text="${messageuser}"></span>
     </div>
     <div class="form-group">
         <label for="email-field">Email:</label>
         <input class="form-control" id="email-field" type="email" name="email" th:value="${email}"/>
-        <span class="error" th:text="${email}"></span>
     </div>
     <div class="form-group">
         <label for="password-field">Password:</label>
         <input class="form-control" id="password-field" type="password" name="password" />
-        <span class="error" th:text="${password}"></span>
     </div>
     <div class="form-group">
         <label for="verify-field">Verify:</label>

@@ -49,7 +49,7 @@ public class UserController {
             }
 
             if(!sameName.isEmpty()) {
-                model.addAttribute("message", "Username is taken, please select another one");
+                model.addAttribute("messageuser", "Username is taken, please select another one");
             }
             return "user/add";
         }
@@ -66,7 +66,7 @@ public class UserController {
     public String add(Model model, @ModelAttribute User user, HttpServletResponse response) {
         List<User> u = userdao.findByUsername(user.getUsername());
         if(u.isEmpty()) {
-            model.addAttribute("message", "Invalid Username");
+            model.addAttribute("messageuser", "Invalid Username");
             model.addAttribute("title", "Login");
             return "user/login";
         }
@@ -79,7 +79,7 @@ public class UserController {
             response.addCookie(c);
             return "redirect:/schedule";
         } else {
-            model.addAttribute("message", "Invalid Password");
+            model.addAttribute("messagepass", "Invalid Password");
             model.addAttribute("title", "Login");
             return "user/login";
         }
