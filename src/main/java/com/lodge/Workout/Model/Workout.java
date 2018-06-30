@@ -18,7 +18,7 @@ public class Workout {
     private String name;
 
     @NotNull
-    @Size(min=1, message = "Description must not be empty")
+    @Size(min=1, message = "Notes must not be empty")
     private String notes;
 
     @ManyToOne

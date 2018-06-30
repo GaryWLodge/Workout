@@ -12,27 +12,27 @@
 
     <tr>
         <th>Workout Plans</th>
+        <th>Description</th>
     </tr>
 
 
     <tr  th:each="schedule : ${schedules}">
 
         <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2></td>
+        <td><p th:text="${schedule.description}"></p></td>
 
     </tr>
-
+</table>
+<table class="table">
     <tr>
         <th>Users</th>
     </tr>
 
-
-<th>
     <tr  th:each="user : ${users}">
 
         <td><h2><a th:href="'/home/viewuser/' + ${user.id}" th:text="${user.username}"></a></h2></td>
 
     </tr>
-</th>
 
 </table>
 

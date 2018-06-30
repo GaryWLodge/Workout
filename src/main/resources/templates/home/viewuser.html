@@ -10,14 +10,20 @@
 
 
 
-<ul>
-    <li  th:each="schedule : ${schedules}">
+<table class="table">
+    <tr>
+        <th>Workout Plans</th>
+        <th>Description</th>
+    </tr>
 
-        <h2><a th:href="'/home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
 
-    </li>
+    <tr  th:each="schedule : ${schedules}">
 
-</ul>
+        <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2></td>
+        <td><p th:text="${schedule.description}"></p></td>
+
+    </tr>
+</table>
 
 
 </body>

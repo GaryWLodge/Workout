@@ -18,6 +18,10 @@ public class Schedule {
     @Size(min=3, max=15)
     private String name;
 
+    @NotNull
+    @Size(min=1, message = "Description must not be empty")
+    private String description;
+
     @ManyToMany
     private List<Workout> workouts = new ArrayList<>();
 
@@ -42,6 +46,14 @@ public class Schedule {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<Workout> getWorkouts() {
