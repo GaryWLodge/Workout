@@ -26,5 +26,25 @@
 
 </table>
 
+<table class="table">
+
+    <tr>
+        <th>Username</th>
+        <th>Comment</th>
+
+    </tr>
+
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.username}"></td>
+        <td th:text="${comment.comment}"></td>
+
+    </tr>
+    <hr/>
+
+</table>
+
+<a href="'/home/add-comment/' + ${scheduleId}" class="btn btn-info" role="button">Add Comment</a>
+
+
 </body>
 </html>

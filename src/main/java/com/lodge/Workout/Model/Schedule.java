@@ -15,22 +15,33 @@ public class Schedule {
     private int id;
 
     @NotNull
-    @Size(min=3, max=15)
+    @Size(min = 3, max = 15)
     private String name;
 
     @NotNull
-    @Size(min=1, message = "Description must not be empty")
+    @Size(min = 1, message = "Description must not be empty")
     private String description;
 
     @ManyToMany
     private List<Workout> workouts = new ArrayList<>();
 
-    public void addItem(Workout item) {workouts.add(item);}
+    public void addItem(Workout item) {
+        workouts.add(item);
+    }
+
+    public void addComment(Comments item) {
+        comments.add(item);
+    }
 
     @ManyToOne
     private User user;
 
-    public Schedule() { }
+    @OneToMany
+    @JoinColumn(name = "comments_id")
+    private List<Comments> comments;
+
+    public Schedule() {
+    }
 
     public int getId() {
         return id;
@@ -60,7 +71,15 @@ public class Schedule {
         return workouts;
     }
 
-    public void setUser(User u) {this.user = u;}
+    public void setUser(User u) {
+        this.user = u;
+    }
 
-    public User getUser(User u) {return user;}
+    public User getUser(User u) {
+        return user;
+    }
+
+    public List<Comments> getComments() {
+        return comments;
+    }
 }
