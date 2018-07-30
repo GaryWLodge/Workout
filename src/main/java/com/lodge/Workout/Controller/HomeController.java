@@ -7,13 +7,14 @@ import com.lodge.Workout.Model.User;
 import com.lodge.Workout.Model.data.CommentDao;
 import com.lodge.Workout.Model.data.ScheduleDao;
 import com.lodge.Workout.Model.data.UserDao;
-import com.lodge.Workout.Model.forms.AddCommentForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -42,14 +43,14 @@ public class HomeController {
     }
 
     @RequestMapping(value = "view/{scheduleId}", method = RequestMethod.GET)
-    public String viewItem(Model model , @PathVariable int scheduleId) {
+    public String viewItem(Model model , @PathVariable int scheduleId, Comments comments) {
 
 
         Schedule schedule = scheduleDao.findOne(scheduleId);
         User user = userdao.findOne(scheduleId);
         model.addAttribute("title", schedule.getName());
         model.addAttribute("workouts", schedule.getWorkouts());
-        model.addAttribute("scheduleId", schedule.getId());
+        model.addAttribute("scheduleId", scheduleId);
         model.addAttribute("users", user);
         model.addAttribute("comments", schedule.getComments());
 
@@ -68,29 +69,38 @@ public class HomeController {
     }
 
     @RequestMapping(value = "add-comment/{scheduleId}", method = RequestMethod.GET)
-    public String add(Model model, @PathVariable int scheduleId){
-        model.addAttribute("title", "Add Comment");
-        model.addAttribute("scheduleId", scheduleId);
+    public String add(Model model, @PathVariable int scheduleId, @CookieValue(value = "user", defaultValue = "none") String username) {
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
+        model.addAttribute("title", "Add Comment to ");
+        Schedule schedule = scheduleDao.findOne(scheduleId);
+        model.addAttribute("scheduleId", schedule.getName());
+        model.addAttribute("username", username);
         model.addAttribute(new Comments());
-        Schedule s = scheduleDao.findById(scheduleId).get(0);
-        AddCommentForm form = new AddCommentForm(commentdao.findAll(),s);
-        model.addAttribute("form", form);
         return "home/add-comment";
     }
 
-    @RequestMapping(value = "add-comment", method = RequestMethod.POST)
-    public String add(Model model, @ModelAttribute @Valid  AddCommentForm form ,Errors errors) {
+    @RequestMapping(value = "add-comment/{scheduleId}", method = RequestMethod.POST)
+    public String add(Model model, @ModelAttribute @Valid  @PathVariable int scheduleId , Comments comments
+            , Errors errors, @CookieValue(value = "user", defaultValue = "none") String username) {
+
+
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Comment");
-            model.addAttribute("form", form);
+            model.addAttribute("scheduleId", scheduleId);
+            model.addAttribute("username", username);
             return "home/add-comment";
         }
 
-        Schedule theSchedule = scheduleDao.findOne(form.getScheduleId());
-
+        Schedule theSchedule = scheduleDao.findOne(scheduleId);
+        comments.setSchedule(theSchedule);
         commentdao.save(comments);
-        return "redirect: /home/view/" + theSchedule.getId();
+        return "redirect:/home/view/" + scheduleId;
     }
 
 }

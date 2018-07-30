@@ -37,7 +37,7 @@ public class Schedule {
     private User user;
 
     @OneToMany
-    @JoinColumn(name = "comments_id")
+    @JoinColumn(name = "schedule_id")
     private List<Comments> comments;
 
     public Schedule() {
@@ -82,4 +82,5 @@ public class Schedule {
     public List<Comments> getComments() {
         return comments;
     }
+
 }
