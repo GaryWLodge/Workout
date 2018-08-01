@@ -21,6 +21,8 @@ public class Workout {
     @Size(min=1, message = "Notes must not be empty")
     private String notes;
 
+    private String youtube;
+
     @ManyToOne
     private DurationSet durationset;
 
@@ -54,6 +56,14 @@ public class Workout {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getYoutube() {
+        return youtube;
+    }
+
+    public void setYoutube(String youtube) {
+        this.youtube = youtube;
     }
 
     public DurationSet getDurationSet() {
