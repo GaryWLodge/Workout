@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("home")
@@ -33,7 +34,8 @@ public class HomeController {
     @RequestMapping(value = "")
     public String index(Model model,String username) {
 
-        model.addAttribute("schedules", scheduleDao.findAll());
+
+        model.addAttribute("schedules", scheduleDao.findAllByOrderByVoteDesc());
         model.addAttribute("title", "All Workout Plans");
         model.addAttribute("users", userdao.findAll());
 
@@ -103,4 +105,37 @@ public class HomeController {
         return "redirect:/home/view/" + scheduleId;
     }
 
+    @RequestMapping(value = "up/{scheduleId}", method = RequestMethod.GET)
+    public String up(Model model, @ModelAttribute @PathVariable int scheduleId
+            , @CookieValue(value = "user", defaultValue = "none") String username) {
+
+
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
+
+        Schedule schedule = scheduleDao.findOne(scheduleId);
+        int vote = schedule.getVote();
+        schedule.setVote(vote + 1);
+
+        scheduleDao.save(schedule);
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "down/{scheduleId}", method = RequestMethod.GET)
+    public String down(Model model, @ModelAttribute @PathVariable int scheduleId
+            , @CookieValue(value = "user", defaultValue = "none") String username) {
+
+
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
+
+        Schedule schedule = scheduleDao.findOne(scheduleId);
+        int vote = schedule.getVote();
+        schedule.setVote(vote - 1);
+
+        scheduleDao.save(schedule);
+        return "redirect:/home";
+    }
 }

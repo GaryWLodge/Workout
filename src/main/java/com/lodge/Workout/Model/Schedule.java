@@ -36,6 +36,8 @@ public class Schedule {
     @ManyToOne
     private User user;
 
+    private int vote;
+
     @OneToMany
     @JoinColumn(name = "schedule_id")
     private List<Comments> comments;
@@ -83,4 +85,11 @@ public class Schedule {
         return comments;
     }
 
+    public int getVote() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
 }

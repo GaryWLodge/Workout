@@ -14,4 +14,5 @@ import java.util.List;
 @Transactional
 public interface ScheduleDao extends CrudRepository<Schedule, Integer> {
     public List<Schedule> findById(int id);
+    public List<Schedule> findAllByOrderByVoteDesc();
 }
