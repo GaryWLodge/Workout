@@ -95,6 +95,6 @@ public class UserController {
                 response.addCookie(c);
             }
         }
-        return "user/login";
+        return "redirect:/user/login";
     }
 }

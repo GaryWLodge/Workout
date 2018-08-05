@@ -1,11 +1,8 @@
 package com.lodge.Workout.Model;
 
 import org.hibernate.validator.constraints.Email;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -39,6 +36,10 @@ public class User {
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<DurationSet> durationsets;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Voted> votes;
 
     public User() {
 
@@ -82,4 +83,11 @@ public class User {
 
     public List<DurationSet> getDurationSets() {return durationsets;}
 
+    public List<Voted> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Voted> votes) {
+        this.votes = votes;
+    }
 }

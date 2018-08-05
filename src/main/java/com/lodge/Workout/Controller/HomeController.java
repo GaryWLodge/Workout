@@ -4,9 +4,11 @@ package com.lodge.Workout.Controller;
 import com.lodge.Workout.Model.Comments;
 import com.lodge.Workout.Model.Schedule;
 import com.lodge.Workout.Model.User;
+import com.lodge.Workout.Model.Voted;
 import com.lodge.Workout.Model.data.CommentDao;
 import com.lodge.Workout.Model.data.ScheduleDao;
 import com.lodge.Workout.Model.data.UserDao;
+import com.lodge.Workout.Model.data.VotedDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +33,17 @@ public class HomeController {
     @Autowired
     private CommentDao commentdao;
 
+    @Autowired
+    private VotedDao votedDao;
+
     @RequestMapping(value = "")
-    public String index(Model model,String username) {
+    public String index(Model model, @CookieValue(value = "user", defaultValue = "none") String username) {
 
-
+        User u = userdao.findByUsername(username).get(0);
         model.addAttribute("schedules", scheduleDao.findAllByOrderByVoteDesc());
         model.addAttribute("title", "All Workout Plans");
-        model.addAttribute("users", userdao.findAll());
+        model.addAttribute("voted",votedDao.findAll());
+        model.addAttribute("userId",u.getId());
 
 
 
@@ -107,35 +113,48 @@ public class HomeController {
 
     @RequestMapping(value = "up/{scheduleId}", method = RequestMethod.GET)
     public String up(Model model, @ModelAttribute @PathVariable int scheduleId
-            , @CookieValue(value = "user", defaultValue = "none") String username) {
+            , Voted voted,@CookieValue(value = "user", defaultValue = "none") String username) {
 
 
         if(username.equals("none")) {
             return "redirect:/user/login";
         }
 
+        User u = userdao.findByUsername(username).get(0);
         Schedule schedule = scheduleDao.findOne(scheduleId);
         int vote = schedule.getVote();
         schedule.setVote(vote + 1);
 
         scheduleDao.save(schedule);
+        model.addAttribute(new Voted());
+        voted.setSchedule(schedule);
+        voted.setUser(u);
+        voted.setHasvoted(true);
+        votedDao.save(voted);
         return "redirect:/home";
     }
 
     @RequestMapping(value = "down/{scheduleId}", method = RequestMethod.GET)
     public String down(Model model, @ModelAttribute @PathVariable int scheduleId
-            , @CookieValue(value = "user", defaultValue = "none") String username) {
+            , Voted voted, @CookieValue(value = "user", defaultValue = "none") String username) {
 
 
         if(username.equals("none")) {
             return "redirect:/user/login";
         }
 
+        User u = userdao.findByUsername(username).get(0);
         Schedule schedule = scheduleDao.findOne(scheduleId);
         int vote = schedule.getVote();
         schedule.setVote(vote - 1);
 
         scheduleDao.save(schedule);
+        model.addAttribute(new Voted());
+        voted.setSchedule(schedule);
+        voted.setUser(u);
+        voted.setHasvoted(true);
+        votedDao.save(voted);
+
         return "redirect:/home";
     }
 }

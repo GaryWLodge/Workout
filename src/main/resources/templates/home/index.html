@@ -20,26 +20,19 @@
 
 
     <tr  th:each="schedule : ${schedules}">
-        <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2></td>
-        <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success" role="button">UP</a></td>
+
+        <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
+            <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
+        <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success" role="button">UP
+            <span class="glyphicon glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></td>
         <td><h4 th:text="${schedule.vote}"></h4></td>
-        <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger" role="button">Down</a></td>
-        <td><p th:text="${schedule.description}"></p></td>
+        <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger" role="button">Down
+            <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
+        <td><p th:text="${schedule.description}"></p></td></tr>
 
-    </tr>
-</table>
-<table class="table">
-    <tr>
-        <th>Users</th>
-    </tr>
-
-    <tr  th:each="user : ${users}">
-
-        <td><h2><a th:href="'/home/viewuser/' + ${user.id}" th:text="${user.username}"></a></h2></td>
-
-    </tr>
 
 </table>
+
 
 </body>
 </html>

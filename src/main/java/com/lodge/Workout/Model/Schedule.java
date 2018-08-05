@@ -42,6 +42,10 @@ public class Schedule {
     @JoinColumn(name = "schedule_id")
     private List<Comments> comments;
 
+    @OneToMany
+    @JoinColumn(name = "schedule_id")
+    private List<Voted> votes;
+
     public Schedule() {
     }
 
@@ -73,11 +77,11 @@ public class Schedule {
         return workouts;
     }
 
-    public void setUser(User u) {
-        this.user = u;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public User getUser(User u) {
+    public User getUser() {
         return user;
     }
 
@@ -91,5 +95,13 @@ public class Schedule {
 
     public void setVote(int vote) {
         this.vote = vote;
+    }
+
+    public List<Voted> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Voted> votes) {
+        this.votes = votes;
     }
 }
