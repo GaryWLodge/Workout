@@ -38,6 +38,9 @@ public class HomeController {
 
     @RequestMapping(value = "")
     public String index(Model model, @CookieValue(value = "user", defaultValue = "none") String username) {
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
 
         User u = userdao.findByUsername(username).get(0);
         model.addAttribute("schedules", scheduleDao.findAllByOrderByVoteDesc());

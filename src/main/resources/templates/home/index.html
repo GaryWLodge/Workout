@@ -19,16 +19,57 @@
     </tr>
 
 
-    <tr  th:each="schedule : ${schedules}">
+    <div  th:each="schedule : ${schedules}">
+        <div th:switch="${schedule.id} and ${userId}">
+            <tr th:case="${#lists.isEmpty(schedule.Votes)}">
+            <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
+                <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
 
-        <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
-            <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
-        <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success" role="button">UP
-            <span class="glyphicon glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></td>
-        <td><h4 th:text="${schedule.vote}"></h4></td>
-        <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger" role="button">Down
-            <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
-        <td><p th:text="${schedule.description}"></p></td></tr>
+            <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success" role="button">UP
+                <span class="glyphicon glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></td>
+
+            <td><h4 th:text="${schedule.vote}"></h4></td>
+
+            <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger" role="button">Down
+                <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
+
+            <td><p th:text="${schedule.description}"></p></td></tr>
+
+        <div th:each="vote : ${schedule.Votes}">
+
+
+                <tr th:case="${schedule.id} == ${vote.schedule.id} and ${vote.user.id} == ${userId}">
+
+            <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
+                <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
+
+            <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success disabled" role="button">UP
+                <span class="glyphicon glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></td>
+
+            <td><h4 th:text="${schedule.vote}"></h4></td>
+
+            <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger disabled" role="button">Down
+                <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
+
+                    <td><p th:text="${schedule.description}"></p></td></tr>
+
+            <tr th:case="${vote.user.id} != ${userId}">
+
+                <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
+                    <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
+
+                <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success " role="button">UP
+                    <span class="glyphicon glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a></td>
+
+                <td><h4 th:text="${schedule.vote}"></h4></td>
+
+                <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger " role="button">Down
+                    <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
+
+                <td><p th:text="${schedule.description}"></p></td></tr></div></div>
+
+        </div>
+
 
 
 </table>
