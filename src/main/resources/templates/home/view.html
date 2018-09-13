@@ -21,8 +21,8 @@
         <td th:text="${workout.name}"></td>
         <td th:text="${workout.notes}"></td>
         <td th:text="${workout.DurationSet.name}"></td>
-        <td th:unless="${workout.youtube}">No Video</td>
-        <td th:if="${workout.youtube}"><iframe id="ytplayer" type="text/html" width="280" height="158"
+        <td th:if="${workout.youtube} == null or ${workout.youtube} == ''">No Video</td>
+        <td th:unless="${workout.youtube} == null or ${workout.youtube} == ''"><iframe id="ytplayer" type="text/html" width="280" height="158"
                                                th:src="'https://www.youtube.com/embed/' + ${workout.youtube} + '?enablejsapi=1?'"
                                                allowfullscreen="allowfullscreen"></iframe></td>
 

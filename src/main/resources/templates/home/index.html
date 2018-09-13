@@ -3,7 +3,7 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 
-<h1 th:text="${title}">Default Title</h1>
+<h1 th:text="${title} + ' ' + 'Welcome:' +' '+ ${user}">Default Title</h1>
 
 <nav th:replace="fragments :: navigation"></nav>
 
@@ -19,9 +19,20 @@
     </tr>
 
 
-    <div  th:each="schedule : ${schedules}">
-        <div th:switch="${schedule.id} and ${userId}">
-            <tr th:case="${#lists.isEmpty(schedule.Votes)}">
+
+<div th:each="schedule : ${schedules}">
+    <div th:each="votes : ${schedule.votes}">
+
+    <div th:if="${user} == ${votes.user.username}">
+        <div th:hidden="${votelist.add(schedule)}" ></div>
+
+    </div>
+    </div>
+
+        <div th:switch="${schedule} and ${user}">
+
+            <tr th:case="${#lists.isEmpty(schedule.votes)}" >
+
             <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
                 <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
 
@@ -35,10 +46,11 @@
 
             <td><p th:text="${schedule.description}"></p></td></tr>
 
-        <div th:each="vote : ${schedule.Votes}">
+            <div th:each="vote : ${schedule.votes}">
 
 
-                <tr th:case="${schedule.id} == ${vote.schedule.id} and ${vote.user.id} == ${userId}">
+                 <tr th:case="${user} == ${vote.user.username}">
+
 
             <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
                 <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
@@ -51,11 +63,14 @@
             <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger disabled" role="button">Down
                 <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
 
-                    <td><p th:text="${schedule.description}"></p></td></tr>
+                    <td><p th:text="${schedule.description}"></p></td>
 
-            <tr th:case="${vote.user.id} != ${userId}">
+                 </tr>
 
-                <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
+           <tr th:case="${not#lists.contains(votelist,schedule)}">
+
+
+                 <td><h2><a th:href="'home/view/' + ${schedule.id}" th:text="${schedule.name}"></a></h2>
                     <h6>By: <a th:href="'/home/viewuser/' + ${schedule.User.id}" th:text="${schedule.User.username}"></a></h6></td>
 
                 <td><a th:href="'home/up/' + ${schedule.id}" class="btn btn-success " role="button">UP
@@ -66,10 +81,16 @@
                 <td><a th:href="'home/down/' + ${schedule.id}" class="btn btn-danger " role="button">Down
                     <span class="glyphicon glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a></td>
 
-                <td><p th:text="${schedule.description}"></p></td></tr></div></div>
+                <td><p th:text="${schedule.description}"></p></td>
 
+
+            </tr>
+
+             </div>
         </div>
 
+
+</div>
 
 
 </table>

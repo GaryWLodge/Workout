@@ -12,8 +12,6 @@ public class Voted {
     @GeneratedValue
     private int id;
 
-    private boolean hasvoted;
-
     @ManyToOne
     private User user;
 
@@ -26,14 +24,6 @@ public class Voted {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isHasvoted() {
-        return hasvoted;
-    }
-
-    public void setHasvoted(boolean hasvoted) {
-        this.hasvoted = hasvoted;
     }
 
     public User getUser() {

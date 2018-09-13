@@ -19,6 +19,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("home")
@@ -45,8 +46,31 @@ public class HomeController {
         User u = userdao.findByUsername(username).get(0);
         model.addAttribute("schedules", scheduleDao.findAllByOrderByVoteDesc());
         model.addAttribute("title", "All Workout Plans");
+        model.addAttribute("user",username);
         model.addAttribute("voted",votedDao.findAll());
-        model.addAttribute("userId",u.getId());
+
+        ArrayList<Schedule> votelist = new ArrayList<>();
+
+
+
+        model.addAttribute("votelist",votelist);
+
+
+        for (Schedule schedule : scheduleDao.findAllByOrderByVoteDesc()){
+             for ( Voted vote : schedule.getVotes()){
+                 if (vote.getUser().equals(u) && schedule.equals(vote.getSchedule()) ){
+                     model.addAttribute("voted" , true);
+                     model.addAttribute("schedule" , schedule);
+                 }else{
+                     model.addAttribute("voted" , false);
+                     model.addAttribute("schedule" , schedule);
+                 }
+             }
+
+        }
+
+
+
 
 
 
@@ -132,7 +156,6 @@ public class HomeController {
         model.addAttribute(new Voted());
         voted.setSchedule(schedule);
         voted.setUser(u);
-        voted.setHasvoted(true);
         votedDao.save(voted);
         return "redirect:/home";
     }
@@ -155,7 +178,6 @@ public class HomeController {
         model.addAttribute(new Voted());
         voted.setSchedule(schedule);
         voted.setUser(u);
-        voted.setHasvoted(true);
         votedDao.save(voted);
 
         return "redirect:/home";
