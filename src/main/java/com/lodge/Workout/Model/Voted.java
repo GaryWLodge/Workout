@@ -18,6 +18,8 @@ public class Voted {
     @ManyToOne
     private Schedule schedule;
 
+    private String yourpick;
+
     public int getId() {
         return id;
     }
@@ -40,5 +42,13 @@ public class Voted {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public String getYourpick() {
+        return yourpick;
+    }
+
+    public void setYourpick(String yourpick) {
+        this.yourpick = yourpick;
     }
 }

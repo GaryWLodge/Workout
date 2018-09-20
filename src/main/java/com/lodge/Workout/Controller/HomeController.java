@@ -55,25 +55,6 @@ public class HomeController {
 
         model.addAttribute("votelist",votelist);
 
-
-        for (Schedule schedule : scheduleDao.findAllByOrderByVoteDesc()){
-             for ( Voted vote : schedule.getVotes()){
-                 if (vote.getUser().equals(u) && schedule.equals(vote.getSchedule()) ){
-                     model.addAttribute("voted" , true);
-                     model.addAttribute("schedule" , schedule);
-                 }else{
-                     model.addAttribute("voted" , false);
-                     model.addAttribute("schedule" , schedule);
-                 }
-             }
-
-        }
-
-
-
-
-
-
         return "home/index";
     }
 
@@ -156,6 +137,7 @@ public class HomeController {
         model.addAttribute(new Voted());
         voted.setSchedule(schedule);
         voted.setUser(u);
+        voted.setYourpick("up");
         votedDao.save(voted);
         return "redirect:/home";
     }
@@ -178,8 +160,55 @@ public class HomeController {
         model.addAttribute(new Voted());
         voted.setSchedule(schedule);
         voted.setUser(u);
+        voted.setYourpick("down");
         votedDao.save(voted);
 
         return "redirect:/home";
     }
+
+    @RequestMapping(value = "up2/{voteId}", method = RequestMethod.GET)
+    public String up2(Model model, @ModelAttribute @PathVariable int voteId
+            ,@CookieValue(value = "user", defaultValue = "none") String username) {
+
+
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
+
+        Voted votes = votedDao.findOne(voteId);
+        Schedule schedule = votes.getSchedule();
+        int vote = schedule.getVote();
+        schedule.setVote(vote + 1);
+
+        scheduleDao.save(schedule);
+
+        votes.setYourpick("up");
+        votedDao.save(votes);
+
+        return "redirect:/home";
+    }
+
+    @RequestMapping(value = "down2/{voteId}", method = RequestMethod.GET)
+    public String down2(Model model, @ModelAttribute @PathVariable int voteId
+            ,@CookieValue(value = "user", defaultValue = "none") String username) {
+
+
+        if(username.equals("none")) {
+            return "redirect:/user/login";
+        }
+
+        Voted votes = votedDao.findOne(voteId);
+        Schedule schedule = votes.getSchedule();
+        int vote = schedule.getVote();
+        schedule.setVote(vote - 1);
+
+        scheduleDao.save(schedule);
+
+        votes.setYourpick("down");
+        votedDao.save(votes);
+
+        return "redirect:/home";
+    }
+
+
 }
