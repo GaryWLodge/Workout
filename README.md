@@ -1,6 +1,6 @@
 # Workout
 Workout Plans Social
-![Alt Text](https://github.com/gwl7499/Workout/blob/master/readme_attachments/2018-08-06%2014.35.06.gif?raw=true)
+![Alt Text](https://github.com/gwl7499/Workout/blob/master/readme_attachments/2018-09-24%2017.47.35.gif)
 # What this does!!!
 ## This is a social web app for a user to find and or create workout plans with other users.
 ## This app is wrote in java and uses springboot. It also uses Thymeleaf for the view.
@@ -15,7 +15,7 @@ Workout Plans Social
 ## Users can upload youtube videos to there workouts
 ![Alt Text](https://github.com/gwl7499/Workout/blob/master/readme_attachments/2018-08-01%2022.59.01.gif?raw=true)
 # Future Plans
-## Allow a user to only vote once per workout plan
+## Add workout plan photos
 ## Full edit functionality 
 ![Alt Text](https://github.com/gwl7499/Workout/blob/master/readme_attachments/2018-08-01%2023.02.14.gif?raw=true)
 ![Alt Text](https://github.com/gwl7499/Workout/blob/master/readme_attachments/2018-08-01%2023.03.14.gif?raw=true)
