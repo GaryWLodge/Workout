@@ -178,7 +178,7 @@ public class HomeController {
         Voted votes = votedDao.findOne(voteId);
         Schedule schedule = votes.getSchedule();
         int vote = schedule.getVote();
-        schedule.setVote(vote + 1);
+        schedule.setVote(vote + 2);
 
         scheduleDao.save(schedule);
 
@@ -200,7 +200,7 @@ public class HomeController {
         Voted votes = votedDao.findOne(voteId);
         Schedule schedule = votes.getSchedule();
         int vote = schedule.getVote();
-        schedule.setVote(vote - 1);
+        schedule.setVote(vote - 2);
 
         scheduleDao.save(schedule);
 
